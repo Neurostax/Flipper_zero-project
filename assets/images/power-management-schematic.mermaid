@@ -1,0 +1,24 @@
+graph LR
+    BATT["3.7V Li-ion\nBattery"] --> TP4056["TP4056\nCharging IC"]
+    USB["USB\nInput"] --> TP4056
+    
+    TP4056 --> SW["Power\nSwitch"]
+    SW --> BOOST["Boost Converter\n(5V Output)"]
+    
+    BOOST --> REG_5V["5V Rail"]
+    BOOST --> REG_3V3["3.3V LDO\nRegulator"]
+    
+    REG_3V3 --> ESP32_3V3["ESP32 3.3V"]
+    REG_3V3 --> PERIPH_3V3["Peripherals 3.3V"]
+    REG_5V --> USB_OUT["USB Output"]
+    
+    %% Components
+    C1["C1\n10μF"] --- TP4056
+    C2["C2\n22μF"] --- BOOST
+    C3["C3\n10μF"] --- REG_3V3
+    
+    R1["R1\n1.2kΩ\nCurrent Limit"] --- TP4056
+    R2["R2\n10kΩ"] --- SW
+    
+    LED1["Charging\nLED"] --- TP4056
+    LED2["Power\nLED"] --- SW

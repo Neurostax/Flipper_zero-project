@@ -46,3 +46,39 @@ Design philosophy and layout for the device's user interface (both physical and 
 - **Buzzer**: Audible confirmation or alerts
 - **Vibration Motor (Optional)**: Haptic feedback for silent environments
 - **LEDs**: Color-coded status indications
+
+## 🧱 UI Components
+
+- **Text UI**: Scrolling menus, status indicators, popups
+- **Icons**: Use bitmap graphics for modules and actions
+- **Progress Bars**: For scanning, recording, transmitting
+- **Notifications**: Short alerts for success/failure or warnings
+
+---
+
+## 🎨 UX Design Principles
+
+- **Minimalist**: Show only what’s needed at a given time
+- **Responsive**: Button presses must be instantly acknowledged
+- **Consistent**: Keep controls and menu flow uniform across all modules
+- **Accessible**: High-contrast UI for readability on OLED
+
+---
+
+## 📡 Feedback & Interactivity
+
+- **Haptic**: (Optional) Vibration motor on key actions
+- **LEDs**: RGB indicator to provide instant feedback
+  - Green for success
+  - Red for failure
+  - Blue for scanning or transmitting
+- **Buzzer**: Audio cues for navigation and alerts
+
+---
+
+## 🛠 Future Additions
+
+- **Custom Themes**: Selectable UI themes or contrast modes
+- **Touchscreen Support**: If upgraded to touch OLEDs in future
+- **Voice Feedback**: Basic synthesized voice announcements
+

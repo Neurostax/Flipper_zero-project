@@ -1,0 +1,32 @@
+flowchart TD
+    ESP32["ESP32 Microcontroller"] --- OLED["OLED Display\n(SPI/I2C)"]
+    ESP32 --- NFC["NFC Module\n(SPI/UART)"]
+    ESP32 --- SUBGHZ["Sub-GHz Transceiver\n(SPI)"]
+    ESP32 --- USB["USB Interface\n(Serial)"]
+    ESP32 --- IR["Infrared LED\n(GPIO/PWM)"]
+    ESP32 --- GPIO["GPIO Headers\n(Expansion)"]
+    ESP32 --- SD["microSD Card\n(SPI)"]
+    ESP32 --- MOTOR["Vibration Motor\n(GPIO/PWM)"]
+    
+    BATT["3.7V Li-ion Battery"] --- CHARGE["Charging Circuit\n(TP4056)"]
+    CHARGE --- ESP32
+    
+    subgraph Power["Power System"]
+        BATT
+        CHARGE
+    end
+    
+    subgraph Core["Core System"]
+        ESP32
+    end
+    
+    subgraph IO["I/O Interfaces"]
+        OLED
+        NFC
+        SUBGHZ
+        USB
+        IR
+        GPIO
+        SD
+        MOTOR
+    end

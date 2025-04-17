@@ -1,0 +1,45 @@
+graph TB
+    subgraph PCB["PCB Layout"]
+        direction TB
+        
+        ESP32_PCB["ESP32 Module"] --- OLED_PCB["OLED Display"]
+        ESP32_PCB --- NFC_PCB["NFC Module"]
+        ESP32_PCB --- SUBGHZ_PCB["Sub-GHz Module"]
+        ESP32_PCB --- SD_PCB["microSD Slot"]
+        ESP32_PCB --- USB_PCB["USB-C Port"]
+        ESP32_PCB --- IR_PCB["IR LED"]
+        ESP32_PCB --- MOTOR_PCB["Vibration Motor"]
+        ESP32_PCB --- GPIO_PCB["GPIO Header"]
+        ESP32_PCB --- BATT_PCB["Battery Connector"]
+        ESP32_PCB --- TP4056_PCB["TP4056 Charger"]
+        ESP32_PCB --- BOOST_PCB["5V Boost Converter"]
+        ESP32_PCB --- REG_PCB["3.3V Regulator"]
+        ESP32_PCB --- BTN_PCB["Button Array"]
+        
+        %% Silkscreen labels
+        SLK_ESP["ESP32"]
+        SLK_OLED["OLED"]
+        SLK_NFC["NFC"]
+        SLK_RF["RF"]
+        SLK_USB["USB"]
+        SLK_IR["IR"]
+        SLK_SD["SD"]
+        SLK_GPIO["GPIO"]
+        SLK_BAT["BAT"]
+        SLK_CHG["CHG"]
+        SLK_BTN["BUTTONS"]
+        
+        %% Component placements
+        C1_PCB["C1"]
+        C2_PCB["C2"]
+        C3_PCB["C3"]
+        R1_PCB["R1"]
+        R2_PCB["R2"]
+        R3_PCB["R3"]
+        
+        %% Connector pins
+        J1_PCB["J1: GPIO"]
+        J2_PCB["J2: UART"]
+        J3_PCB["J3: I2C"]
+        J4_PCB["J4: SPI"]
+    end
