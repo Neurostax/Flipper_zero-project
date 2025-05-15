@@ -37,5 +37,3 @@ This is a personal, open-source multi-tool project inspired by Flipper Zero. It 
 ## Status
 > Project is in early development. Modules will be added iteratively.
 
-## License
-MIT License (or choose your preferred license)
