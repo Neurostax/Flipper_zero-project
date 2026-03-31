@@ -1,61 +1,33 @@
 #include "gpio_control.h"
-#include "fap.h" // Flipper API for GPIO
 
-#include <thread>
-#include <chrono>
-
-GPIOControl::GPIOControl() {}
-GPIOControl::~GPIOControl() {}
+// Hardware Pin Definitions from docs/21_Hardware_Pinout_Map.md
+#define PIN_BTN_UP     4
+#define PIN_BTN_DOWN   15
+#define PIN_BTN_SELECT 18
+#define PIN_BTN_BACK   19
 
 void GPIOControl::initialize() {
-    // Initialization code if needed
+    // Configure pins with internal pull-up resistors
+    // Buttons should connect pin to GND when pressed
+    pinMode(PIN_BTN_UP, INPUT_PULLUP);
+    pinMode(PIN_BTN_DOWN, INPUT_PULLUP);
+    pinMode(PIN_BTN_SELECT, INPUT_PULLUP);
+    pinMode(PIN_BTN_BACK, INPUT_PULLUP);
 }
 
-/**
- * Sets the GPIO pin as output
- */
-void GPIOControl::setPinOutput(uint8_t pin) {
-    fap_gpio_set_direction(pin, FAP_GPIO_DIR_OUTPUT);
+// Low level reads (debouncing is handled by the App Framework input loop)
+bool GPIOControl::isUpPressed() { 
+    return digitalRead(PIN_BTN_UP) == LOW; 
 }
 
-/**
- * Write HIGH to GPIO pin
- */
-void GPIOControl::writePinHigh(uint8_t pin) {
-    fap_gpio_write(pin, true);
+bool GPIOControl::isDownPressed() { 
+    return digitalRead(PIN_BTN_DOWN) == LOW; 
 }
 
-/**
- * Write LOW to GPIO pin
- */
-void GPIOControl::writePinLow(uint8_t pin) {
-    fap_gpio_write(pin, false);
+bool GPIOControl::isSelectPressed() { 
+    return digitalRead(PIN_BTN_SELECT) == LOW; 
 }
 
-/**
- * Read GPIO pin state
- */
-bool GPIOControl::readPin(uint8_t pin) {
-    return fap_gpio_read(pin);
-}
-
-/**
- * Toggle GPIO pin state
- */
-void GPIOControl::togglePin(uint8_t pin) {
-    bool current = fap_gpio_read(pin);
-    fap_gpio_write(pin, !current);
-}
-
-/**
- * Blink an LED connected to the specified GPIO pin
- */
-void GPIOControl::blinkLED(uint8_t pin, uint32_t duration_ms, uint8_t blink_count) {
-    setPinOutput(pin);
-    for (uint8_t i = 0; i < blink_count; ++i) {
-        writePinHigh(pin);
-        std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
-        writePinLow(pin);
-        std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
-    }
+bool GPIOControl::isBackPressed() { 
+    return digitalRead(PIN_BTN_BACK) == LOW; 
 }

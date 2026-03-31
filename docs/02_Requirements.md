@@ -15,6 +15,6 @@
 - Expandable hardware
 
 ## Dependencies
-- PlatformIO / Arduino IDE
+- PlatformIO
 - KiCad for schematics/PCB
-- STM32 or ESP32 MCU (TBD)
+- ESP32 MCU

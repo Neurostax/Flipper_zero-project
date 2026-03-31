@@ -34,6 +34,7 @@ This is a personal, open-source multi-tool project inspired by Flipper Zero. It 
 - `docs/18_Interface_Design.md`
 - `docs/19_Usage_Guide.md`
 - `docs/21_Hardware_Pinout_Map.md`
+- `docs/22_Development_Strategy.md`
 
 ## Status
 > Project is in early development. Modules will be added iteratively.

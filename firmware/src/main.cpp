@@ -1,86 +1,69 @@
-// main.cpp
-// Entry point for the Flipper Zero multi-feature application
-// Demonstrates modular, object-oriented design for core features
+#include <Arduino.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-#include <cstdio>
-#include <cstdint>
-#include <vector>
-#include <string>
+#include "config.h" // Sandbox config
 #include "gpio_control.h"
-#include "ir_control.h"
-#include "radio_control.h"
-#include "nfc_rfid.h"
-#include "one_wire.h"
-#include "ble_control.h"
-#include "usb_hid.h"
 #include "ui_display.h"
-#include "storage.h"
 #include "app_framework.h"
 
-// Instantiate feature classes
-GPIOControl gpio;
-IRControl ir;
-RadioControl radio;
-NFCRFID nfc;
-OneWire oneWire;
-BLEControl ble;
-USBHID usbHid;
+// Instantiate core HAL
 UIDisplay display;
-Storage storage;
+GPIOControl gpio;
+MainMenuApp menuApp;
+BaseApp* activeApp = &menuApp;
 
-// Example usage of features in a simple main application
-int main() {
-    // Initialize hardware modules
+// RTOS Task Handles
+TaskHandle_t TaskAppCoreHandle;
+TaskHandle_t TaskRadioCoreHandle;
+
+// Core 1 Task: Handles UI rendering and App event loop
+void TaskAppCore(void *pvParameters) {
+    for (;;) {
+        if (RUN_SANDBOX_TEST) {
+            // Sandbox isolated logic runs here instead of the App Framework
+            if (TEST_MODULE_DISPLAY) {
+                display.showText("Sandbox: OLED Test Mode");
+            }
+        } 
+        else if (activeApp) {
+            activeApp->tick(); // Polls buttons and computes layout
+        }
+        
+        display.update(); // Flushes buffer to OLED
+        vTaskDelay(pdMS_TO_TICKS(33)); // ~30FPS refresh rate prevents CPU hogging
+    }
+}
+
+// Core 0 Task: Handles background scanning (Radios)
+void TaskRadioCore(void *pvParameters) {
+    for (;;) {
+        // Poll Sub-GHz, NFC, and BLE here silently
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+}
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Initialize Hardware Abstraction Layers
     gpio.initialize();
-    ir.initialize();
-    radio.initialize();
-    nfc.initialize();
-    oneWire.initialize();
-    ble.initialize();
-    usbHid.initialize();
     display.initialize();
-    storage.initialize();
 
-    // Example: Blink an LED connected to GPIO pin 13
-    gpio.blinkLED(13, 500); // Blink LED on pin 13 every 500ms
+    // Start App Ecosystem
+    activeApp->start();
 
-    // Example: Send an NEC IR command (e.g., TV Power)
-    ir.sendNEC("0x20DF10EF");
+    // Spawn Core 1 Task (UI & Apps)
+    xTaskCreatePinnedToCore(
+        TaskAppCore, "TaskApp", 4096, NULL, 1, &TaskAppCoreHandle, 1);
 
-    // Example: Scan for NFC tags
-    auto nfcTagID = nfc.readTag();
-    if (!nfcTagID.empty()) {
-        display.showText("NFC Tag Detected");
-        printf("NFC Tag ID: %s\n", nfcTagID.c_str());
-    }
+    // Spawn Core 0 Task (System & Radios)
+    xTaskCreatePinnedToCore(
+        TaskRadioCore, "TaskRadio", 4096, NULL, 1, &TaskRadioCoreHandle, 0);
+}
 
-    // Example: Read temperature from 1-Wire device (e.g., DS18B20)
-    float temperature = oneWire.readTemperature();
-    display.showText("Temp: " + std::to_string(temperature) + " C");
-
-    // Example: Scan for BLE devices
-    auto devices = ble.scanDevices();
-    for (const auto& device : devices) {
-        display.showText("BLE Device: " + device);
-    }
-
-    // Example: Send keyboard input via USB HID
-    usbHid.sendKeyboardInput("Hello");
-
-    // Example: Draw a simple UI
-    display.clear();
-    display.drawText(10, 10, "Flipper Zero Demo");
-    display.drawRectangle(5, 50, 100, 20);
-    display.update();
-
-    // Example: Save a configuration setting
-    storage.write("config", "demo_mode=1");
-
-    // Keep running or implement a main loop as needed
-    while (true) {
-        // Placeholder for main loop
-        // e.g., handle button presses, update UI, etc.
-    }
-
-    return 0;
+void loop() {
+    // In FreeRTOS, the loop() is just another task (running on Core 1).
+    // We leave this empty because TaskAppCore and TaskRadioCore handle everything.
+    vTaskDelete(NULL); 
 }
