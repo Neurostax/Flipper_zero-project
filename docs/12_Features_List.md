@@ -29,3 +29,19 @@
 - [x] Button debounce
 - [ ] GPIO pin monitor mode
 - [ ] Output toggling interface
+
+## [ ] 7. 125kHz RFID
+- [ ] Read low-frequency tags
+- [ ] Emulate/write tags
+
+## [ ] 8. iButton (1-Wire)
+- [ ] Read iButton touches
+- [ ] Save and emulate iButton
+
+## [ ] 9. Bluetooth LE
+- [ ] Smartphone pairing
+- [ ] Remote control / File sync
+
+## [ ] 10. U2F Security Token
+- [ ] FIDO U2F emulation
+- [ ] Secure key storage (ESP32 secure enclave)

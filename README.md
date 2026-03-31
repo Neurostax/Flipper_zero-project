@@ -27,12 +27,13 @@ This is a personal, open-source multi-tool project inspired by Flipper Zero. It 
 5. Upload `src/main.cpp` to ESP32
 
 ## Documentation
-- `firmware_architecture.md`
-- `hardware_pinout.md`
-- `features.md`
-- `usage_guide.md`
-- `testing_log.md`
-- `changelog.md`
+- `docs/01_Project_Overview.md`
+- `docs/03_System_Architecture.md`
+- `docs/04_Bill_of_Materials.md`
+- `docs/15_Roadmap.md`
+- `docs/18_Interface_Design.md`
+- `docs/19_Usage_Guide.md`
+- `docs/21_Hardware_Pinout_Map.md`
 
 ## Status
 > Project is in early development. Modules will be added iteratively.

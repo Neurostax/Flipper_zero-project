@@ -13,19 +13,5 @@
 
 ---
 
-### `hardware_pinout.md`
-```md
-# Hardware Pin Mapping
-
-| Module         | Function           | Pin | Notes              |
-|----------------|--------------------|-----|---------------------|
-| OLED Display   | I2C SCL             | D22 | Adjustable          |
-| OLED Display   | I2C SDA             | D21 |                     |
-| IR Receiver    | Digital IN          | D33 | TSOP382 compatible  |
-| IR LED         | PWM Output          | D25 | Use transistor if needed |
-| PN532 NFC      | SPI CS              | D5  | Changeable if needed|
-| Sub-GHz TX     | SPI MOSI            | D23 | Via external module |
-| Button A       | Input Pull-up       | D18 | Menu select         |
-| Button B       | Input Pull-up       | D19 | Back/Cancel         |
-| Buzzer         | PWM OUT             | D27 | Optional            |
-| RGB LED        | PWM RGB             | D13/D12/D14 | Status LEDs |
+### Hardware Pin Mapping
+For hardware pin assignments, please refer to [21_Hardware_Pinout_Map.md](21_Hardware_Pinout_Map.md).

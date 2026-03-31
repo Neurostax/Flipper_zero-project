@@ -6,7 +6,10 @@ Build a portable, open-source, multi-tool device inspired by Flipper Zero.
 ## Core Features
 - IR Transmitter/Receiver
 - Sub-GHz Radio
-- NFC Reader/Writer
+- NFC Reader/Writer & 125kHz RFID
+- iButton (1-Wire)
+- Bluetooth Low Energy (BLE)
+- U2F Security Token
 - GPIO Control
 - USB HID Emulation
 - OLED Display

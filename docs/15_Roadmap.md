@@ -22,13 +22,17 @@ This roadmap outlines the phased development plan for the custom Flipper Zero cl
   - [ ] Receive NEC codes
   - [ ] Transmit saved codes
 
-- [ ] **NFC (PN532)**
-  - [ ] Detect NFC tags
-  - [ ] Read MIFARE UID
+- [ ] **NFC (PN532) & 125kHz RFID**
+  - [ ] Detect NFC tags & Read MIFARE UID
+  - [ ] Read/Emulate 125kHz low-frequency tags
 
 - [ ] **Sub-GHz RF Module**
   - [ ] Capture raw signals
   - [ ] Replay signals (basic)
+  
+- [ ] **iButton (1-Wire)**
+  - [ ] Read generic iButton keys
+  - [ ] Save to storage
 
 ---
 
@@ -48,6 +52,8 @@ This roadmap outlines the phased development plan for the custom Flipper Zero cl
 - [ ] Implement USB HID keyboard/mouse (ESP32 native USB or USB host shield)
 - [ ] Add GPIO tool: simple HIGH/LOW toggle
 - [ ] Power consumption optimization (sleep mode, LED usage)
+- [ ] **Bluetooth LE**: Smartphone pairing and app sync
+- [ ] **U2F Security Token**: FIDO U2F emulation over USB/BLE
 
 ---
 
@@ -63,11 +69,11 @@ This roadmap outlines the phased development plan for the custom Flipper Zero cl
 ---
 
 ## ✅ Future Ideas / Stretch Goals
-- Bluetooth remote control via smartphone
 - Custom scripting language for signals
 - WiFi sniffing or signal analyzer
 - GPS tracker module support
 - Cloud sync of saved profiles
+- Expand Sub-GHz support to 433 MHz garage remotes
 
 ---
 

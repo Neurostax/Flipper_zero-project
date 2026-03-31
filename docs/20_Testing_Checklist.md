@@ -24,3 +24,7 @@
 ## Sub-GHz
 - [ ] Module initializes
 - [ ] Frequency switching possible
+
+## Incremental / Sandbox Testing
+- [ ] Run isolated "sandbox" firmwares on each new component before integrating into the main RTOS logic
+- [ ] Provide mock simulator tests for the UI before flashing to ESP32
