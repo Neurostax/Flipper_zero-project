@@ -1,6 +1,10 @@
 #ifndef ONE_WIRE_H
 #define ONE_WIRE_H
 
+#include <string>
+#include <vector>
+#include <stdint.h>
+
 /**
  * @brief Handles communication with 1-Wire devices (e.g., iButton).
  */

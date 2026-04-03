@@ -1,6 +1,5 @@
 #include "nfc_rfid.h"
-#include "fap.h" // Flipper API for NFC
-
+#include <Arduino.h>
 #include <iostream>
 
 NFCRFID::NFCRFID() {}
@@ -17,8 +16,7 @@ std::string NFCRFID::readTag() {
 }
 
 void NFCRFID::emulateCard(const std::string& uid) {
-    // Emulate NFC card with given UID
-    fap_nfc_emulate_card(uid.c_str());
+    // TODO: Implement PN532 / NFC emulation
 }
 
 bool NFCRFID::writeTag(const std::string& data) {

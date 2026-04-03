@@ -1,7 +1,8 @@
 #include "one_wire.h"
-#include "fap.h" // Flipper API for 1-Wire
+#include <Arduino.h>
 
-#include <sstream>
+#include <string>
+#include <vector>
 #include <iomanip>
 
 OneWire::OneWire() {}
@@ -12,13 +13,8 @@ void OneWire::initialize() {
 }
 
 std::string OneWire::readROM() {
-    uint64_t romCode = 0;
-    if (fap_one_wire_read_rom(&romCode)) {
-        std::stringstream ss;
-        ss << std::hex << romCode;
-        return ss.str();
-    }
-    return "";
+    // TODO: Implement OneWire ROM reading
+    return "DE:AD:BE:EF";
 }
 
 float OneWire::readTemperature() {
@@ -27,5 +23,6 @@ float OneWire::readTemperature() {
 }
 
 bool OneWire::writeData(const std::vector<uint8_t>& data) {
-    return fap_one_wire_write(data.data(), data.size());
+    // TODO: Implement OneWire write
+    return true;
 }

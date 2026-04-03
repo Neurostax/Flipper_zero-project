@@ -2,6 +2,7 @@
 #define IR_CONTROL_H
 
 #include <string>
+#include <vector>
 
 /**
  * @brief Handles IR transmission and reception.

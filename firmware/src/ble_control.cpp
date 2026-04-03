@@ -1,5 +1,5 @@
 #include "ble_control.h"
-#include "fap.h" // Flipper API for BLE
+#include <Arduino.h>
 
 #include <iostream>
 
@@ -7,7 +7,7 @@ BLEControl::BLEControl() {}
 BLEControl::~BLEControl() {}
 
 void BLEControl::initialize() {
-    // Initialize BLE hardware
+    // TODO: Implement BLE initialization using Arduino ESP32 BLE Library
 }
 
 std::vector<std::string> BLEControl::scanDevices() {

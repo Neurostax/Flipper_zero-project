@@ -1,41 +1,29 @@
 #include "ir_control.h"
-#include "fap.h" // Flipper API for IR
+#include <Arduino.h>
+#include <IRremote.hpp>
 
-#include <sstream>
-#include <iomanip>
+#define PIN_IR_RX 27
+#define PIN_IR_TX 13
 
 IRControl::IRControl() {}
 IRControl::~IRControl() {}
 
 void IRControl::initialize() {
-    // Initialize IR hardware if necessary
-}
-
-/**
- * Helper to convert hex string to uint32_t
- */
-uint32_t hexStringToUInt(const std::string& hexStr) {
-    uint32_t result;
-    std::stringstream ss;
-    ss << std::hex << hexStr;
-    ss >> result;
-    return result;
+    IrReceiver.begin(PIN_IR_RX, ENABLE_LED_FEEDBACK);
+    IrSender.begin(PIN_IR_TX, ENABLE_LED_FEEDBACK);
 }
 
 void IRControl::sendNEC(const std::string& hexCode) {
-    uint32_t code = hexStringToUInt(hexCode);
-    // Send NEC IR code using fap IR functions
-    fap_ir_send_nec(code);
+    uint32_t code = strtoul(hexCode.c_str(), NULL, 16);
+    IrSender.sendNECRaw(code, 1);
 }
 
 std::string IRControl::receiveIR() {
-    // Placeholder: actual implementation depends on hardware
-    uint32_t receivedCode;
-    bool success = fap_ir_receive(&receivedCode);
-    if (success) {
-        std::stringstream ss;
-        ss << "0x" << std::hex << receivedCode;
-        return ss.str();
+    if (IrReceiver.decode()) {
+        char buffer[20];
+        sprintf(buffer, "0x%08X", (unsigned int)IrReceiver.decodedIRData.decodedRawData);
+        IrReceiver.resume();
+        return std::string(buffer);
     }
     return "";
 }

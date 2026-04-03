@@ -2,38 +2,28 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "config.h" // Sandbox config
+#include "config.h"
 #include "gpio_control.h"
-#include "ui_display.h"
-#include "app_framework.h"
+#include "ir_control.h"
 
-// Instantiate core HAL
-UIDisplay display;
-GPIOControl gpio;
-MainMenuApp menuApp;
-BaseApp* activeApp = &menuApp;
-
-// RTOS Task Handles
-TaskHandle_t TaskAppCoreHandle;
-TaskHandle_t TaskRadioCoreHandle;
-
-// Core 1 Task: Handles UI rendering and App event loop
-void TaskAppCore(void *pvParameters) {
-    for (;;) {
-        if (RUN_SANDBOX_TEST) {
-            // Sandbox isolated logic runs here instead of the App Framework
-            if (TEST_MODULE_DISPLAY) {
-                display.showText("Sandbox: OLED Test Mode");
-            }
-        } 
-        else if (activeApp) {
-            activeApp->tick(); // Polls buttons and computes layout
-        }
-        
-        display.update(); // Flushes buffer to OLED
-        vTaskDelay(pdMS_TO_TICKS(33)); // ~30FPS refresh rate prevents CPU hogging
-    }
+// Bridge to native C GUI
+extern "C" {
+    #include "gui.h"
+    #include "ssd1306.h"
+    
+    // Forward declarations for functions from the moved main.c logic
+    void display_init(void);
+    void buttons_init(void);
+    void gui_task(void *arg);
 }
+
+// Global instances
+IRControl ir;
+GPIOControl gpio;
+
+// Task Handles
+TaskHandle_t TaskGuiHandle;
+TaskHandle_t TaskRadioCoreHandle;
 
 // Core 0 Task: Handles background scanning (Radios)
 void TaskRadioCore(void *pvParameters) {
@@ -46,24 +36,28 @@ void TaskRadioCore(void *pvParameters) {
 void setup() {
     Serial.begin(115200);
     
-    // Initialize Hardware Abstraction Layers
-    gpio.initialize();
-    display.initialize();
+    // Initialize Hardware
+    ir.initialize();
+    
+    // Initialize Native C Display & Buttons
+    display_init();
+    buttons_init();
 
-    // Start App Ecosystem
-    activeApp->start();
+    // Show Splash Screen (using native driver)
+    ssd1306_display_text(&dev, 2, "   FLIP-X1", 10, false);
+    ssd1306_display_text(&dev, 4, " BOOTING...", 11, false);
+    delay(1500);
 
-    // Spawn Core 1 Task (UI & Apps)
+    // Spawn GUI Task on Core 1
     xTaskCreatePinnedToCore(
-        TaskAppCore, "TaskApp", 4096, NULL, 1, &TaskAppCoreHandle, 1);
+        gui_task, "GuiTask", 4096, NULL, 5, &TaskGuiHandle, 1);
 
-    // Spawn Core 0 Task (System & Radios)
+    // Spawn Background Radio Task on Core 0
     xTaskCreatePinnedToCore(
-        TaskRadioCore, "TaskRadio", 4096, NULL, 1, &TaskRadioCoreHandle, 0);
+        TaskRadioCore, "RadioTask", 4096, NULL, 1, &TaskRadioCoreHandle, 0);
 }
 
 void loop() {
-    // In FreeRTOS, the loop() is just another task (running on Core 1).
-    // We leave this empty because TaskAppCore and TaskRadioCore handle everything.
+    // Arduino loop remains empty as FreeRTOS tasks handle everything
     vTaskDelete(NULL); 
 }

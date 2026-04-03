@@ -1,5 +1,5 @@
 #include "storage.h"
-#include "fap.h" // Flipper API for storage
+#include <Arduino.h>
 
 #include <fstream>
 #include <sstream>

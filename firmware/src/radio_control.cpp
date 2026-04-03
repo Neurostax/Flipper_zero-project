@@ -1,5 +1,5 @@
 #include "radio_control.h"
-#include "fap.h" // Flipper API for radio
+#include <Arduino.h>
 
 #include <iostream>
 
@@ -14,7 +14,7 @@ void RadioControl::initialize() {
  * Transmit custom signal
  */
 void RadioControl::transmit(const std::vector<uint8_t>& signalData) {
-    fap_radio_transmit(signalData.data(), signalData.size());
+    // TODO: Implement CC1101 / Sub-GHz transmission
 }
 
 /**

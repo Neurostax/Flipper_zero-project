@@ -4,19 +4,21 @@ This document provides a 1:1 hardware mapping table for connecting the core ESP3
 
 | Module         | Function           | ESP32 Pin   | Notes                         |
 |----------------|--------------------|-------------|-------------------------------|
-| OLED Display   | I2C SCL            | D22         | Adjustable                    |
-| OLED Display   | I2C SDA            | D21         |                               |
-| IR Receiver    | Digital IN         | D33         | TSOP382 compatible            |
-| IR LED         | PWM Output         | D25         | Use transistor if needed      |
-| PN532 NFC      | SPI CS             | D5          | Changeable if needed          |
-| Sub-GHz TX     | SPI MOSI           | D23         | Via external module           |
-| Button A       | Input Pull-up      | D18         | Menu select                   |
-| Button B       | Input Pull-up      | D19         | Back/Cancel                   |
-| Button Up      | Input Pull-up      | D4          | Menu scroll up                |
-| Button Down    | Input Pull-up      | D15         | Menu scroll down              |
-| Buzzer         | PWM OUT            | D27         | Optional                      |
-| RGB LED        | PWM RGB            | D13/D12/D14 | Status LEDs                   |
-| 1-Wire         | iButton IN         | TBD         | Needs dedicated pin           |
-| 125kHz RFID    | SPI/I2C/UART       | TBD         | Pending module choice         |
+| OLED Display   | I2C SCL            | D22         | Standard I2C                  |
+| OLED Display   | I2C SDA            | D21         | Standard I2C                  |
+| IR Receiver    | Digital IN         | D27         | Reallocated (was D33)         |
+| IR LED         | PWM Output         | D13         | Reallocated (was D25)         |
+| PN532 NFC      | SPI CS             | D5          |                               |
+| Sub-GHz TX     | SPI MOSI           | D23         |                               |
+| Button UP      | Input Pull-up      | D34         | Navigation                    |
+| Button DOWN    | Input Pull-up      | D35         | Navigation                    |
+| Button LEFT    | Input Pull-up      | D25         | Navigation                    |
+| Button RIGHT   | Input Pull-up      | D26         | Navigation                    |
+| Button OK      | Input Pull-up      | D32         | Select/Enter                  |
+| Button BACK    | Input Pull-up      | D33         | Back/Cancel                   |
+| 1-Wire         | iButton IN         | TBD         |                               |
+| 125kHz RFID    | SPI/I2C/UART       | TBD         |                               |
+| Buzzer         | PWM OUT            | TBD         | Needs reallocation (was D27)  |
+| RGB LED        | PWM RGB            | TBD         | Needs reallocation (was D13)  |
 
 *Note: Pins marked TBD need to be assigned based on the final PCB routing in the Kicad files.*

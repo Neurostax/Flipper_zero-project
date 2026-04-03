@@ -1,5 +1,5 @@
 #include "usb_hid.h"
-#include "fap.h" // Flipper API for USB HID
+#include <Arduino.h>
 
 USBHID::USBHID() {}
 USBHID::~USBHID() {}
@@ -9,12 +9,9 @@ void USBHID::initialize() {
 }
 
 void USBHID::sendKeyboardInput(const std::string& text) {
-    fap_usb_hid_send_keyboard(text.c_str());
+    // TODO: Implement USB HID using USBHID.h (ESP32-S3/S2) or BleKeyboard
 }
 
 void USBHID::emulateMouse(int x, int y, bool click) {
-    fap_usb_hid_move_mouse(x, y);
-    if (click) {
-        fap_usb_hid_mouse_click();
-    }
+    // TODO: Implement USB HID Mouse
 }
