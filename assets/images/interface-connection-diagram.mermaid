@@ -1,0 +1,91 @@
+graph TB
+    subgraph ESP32["ESP32 Microcontroller"]
+        direction TB
+        %% I2C
+        I2C_SDA["GPIO21 (SDA)"]
+        I2C_SCL["GPIO22 (SCL)"]
+        
+        %% SPI
+        SPI_MISO["GPIO19 (MISO)"]
+        SPI_MOSI["GPIO23 (MOSI)"]
+        SPI_SCK["GPIO18 (SCK)"]
+        SPI_CS1["GPIO5 (CS1)"]
+        SPI_CS2["GPIO15 (CS2)"]
+        SPI_CS3["GPIO4 (CS3)"]
+        
+        %% UART
+        UART_TX["GPIO1 (TX)"]
+        UART_RX["GPIO3 (RX)"]
+        
+        %% PWM
+        PWM1["GPIO25 (PWM1)"]
+        PWM2["GPIO26 (PWM2)"]
+        
+        %% GPIO
+        GPIO0["GPIO0"]
+        GPIO2["GPIO2"]
+        GPIO12["GPIO12"]
+        GPIO13["GPIO13"]
+        GPIO14["GPIO14"]
+        GPIO27["GPIO27"]
+        GPIO32["GPIO32"]
+        GPIO33["GPIO33"]
+        GPIO34["GPIO34 (Input only)"]
+        GPIO35["GPIO35 (Input only)"]
+    end
+    
+    %% Peripherals
+    OLED["OLED Display\n(I2C)"]
+    NFC["NFC Module\n(SPI)"]
+    SUBGHZ["Sub-GHz\n(SPI)"]
+    SD["microSD Card\n(SPI)"]
+    IR["IR LED\n(PWM)"]
+    MOTOR["Vibration Motor\n(PWM)"]
+    BUTTONS["Buttons\n(GPIO Input)"]
+    USB["USB Interface\n(UART)"]
+    
+    %% Connections
+    I2C_SDA --> OLED
+    I2C_SCL --> OLED
+    
+    SPI_MISO --> NFC
+    SPI_MOSI --> NFC
+    SPI_SCK --> NFC
+    SPI_CS1 --> NFC
+    
+    SPI_MISO --> SUBGHZ
+    SPI_MOSI --> SUBGHZ
+    SPI_SCK --> SUBGHZ
+    SPI_CS2 --> SUBGHZ
+    
+    SPI_MISO --> SD
+    SPI_MOSI --> SD
+    SPI_SCK --> SD
+    SPI_CS3 --> SD
+    
+    PWM1 --> IR
+    PWM2 --> MOTOR
+    
+    GPIO0 --> BUTTONS
+    GPIO2 --> BUTTONS
+    GPIO12 --> BUTTONS
+    
+    UART_TX --> USB
+    UART_RX --> USB
+    
+    %% Labels for connection types
+    style I2C_SDA fill:#f9f,stroke:#333,stroke-width:1px
+    style I2C_SCL fill:#f9f,stroke:#333,stroke-width:1px
+    
+    style SPI_MISO fill:#9cf,stroke:#333,stroke-width:1px
+    style SPI_MOSI fill:#9cf,stroke:#333,stroke-width:1px
+    style SPI_SCK fill:#9cf,stroke:#333,stroke-width:1px
+    style SPI_CS1 fill:#9cf,stroke:#333,stroke-width:1px
+    style SPI_CS2 fill:#9cf,stroke:#333,stroke-width:1px
+    style SPI_CS3 fill:#9cf,stroke:#333,stroke-width:1px
+    
+    style UART_TX fill:#fc9,stroke:#333,stroke-width:1px
+    style UART_RX fill:#fc9,stroke:#333,stroke-width:1px
+    
+    style PWM1 fill:#cfc,stroke:#333,stroke-width:1px
+    style PWM2 fill:#cfc,stroke:#333,stroke-width:1px

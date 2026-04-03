@@ -1,0 +1,96 @@
+graph TB
+    subgraph BREADBOARD["Breadboard"]
+        direction TB
+        
+        subgraph POWER_RAILS["Power Rails"]
+            PLUS_RAIL["+5V Rail"]
+            GND_RAIL["GND Rail"]
+        end
+        
+        subgraph ESP32_DEV["ESP32 DevKit"]
+            ESP_3V3["3.3V"]
+            ESP_GND["GND"]
+            ESP_IO21["IO21"]
+            ESP_IO22["IO22"]
+            ESP_IO19["IO19"]
+            ESP_IO23["IO23"]
+            ESP_IO18["IO18"]
+            ESP_IO5["IO5"]
+            ESP_IO15["IO15"]
+            ESP_IO2["IO2"]
+            ESP_IO4["IO4"]
+            ESP_IO0["IO0"]
+        end
+        
+        subgraph OLED_BB["OLED Display"]
+            OLED_VCC["VCC"]
+            OLED_GND["GND"]
+            OLED_SCL["SCL"]
+            OLED_SDA["SDA"]
+        end
+        
+        subgraph NFC_BB["NFC Module"]
+            NFC_VCC["VCC"]
+            NFC_GND["GND"]
+            NFC_MISO["MISO"]
+            NFC_MOSI["MOSI"]
+            NFC_SCK["SCK"]
+            NFC_CS["CS"]
+        end
+        
+        subgraph BUTTONS["Push Buttons"]
+            BTN1["Button 1"]
+            BTN2["Button 2"]
+            BTN3["Button 3"]
+        end
+        
+        subgraph IR_BB["IR LED"]
+            IR_A["Anode"]
+            IR_K["Cathode"]
+        end
+        
+        subgraph BAT_BB["Li-ion Battery"]
+            BAT_POS["Battery+"]
+            BAT_NEG["Battery-"]
+        end
+        
+        subgraph TP4056_BB["TP4056 Charger"]
+            TP_BAT_POS["BAT+"]
+            TP_BAT_NEG["BAT-"]
+            TP_OUT_POS["OUT+"]
+            TP_OUT_NEG["OUT-"]
+        end
+    end
+    
+    %% Connections with jumper wires
+    ESP_3V3 -.- OLED_VCC
+    ESP_GND -.- OLED_GND
+    ESP_IO21 -.- OLED_SCL
+    ESP_IO22 -.- OLED_SDA
+    
+    ESP_3V3 -.- NFC_VCC
+    ESP_GND -.- NFC_GND
+    ESP_IO19 -.- NFC_MISO
+    ESP_IO23 -.- NFC_MOSI
+    ESP_IO18 -.- NFC_SCK
+    ESP_IO5 -.- NFC_CS
+    
+    ESP_IO0 -.- BTN1
+    BTN1 -.- GND_RAIL
+    ESP_IO2 -.- BTN2
+    BTN2 -.- GND_RAIL
+    ESP_IO4 -.- BTN3
+    BTN3 -.- GND_RAIL
+    
+    ESP_IO15 -.- R_IR["R 220Ω"]
+    R_IR -.- IR_A
+    IR_K -.- GND_RAIL
+    
+    BAT_POS -.- TP_BAT_POS
+    BAT_NEG -.- TP_BAT_NEG
+    TP_OUT_POS -.- PLUS_RAIL
+    TP_OUT_NEG -.- GND_RAIL
+    
+    PLUS_RAIL -.- REG["3.3V Regulator"]
+    REG -.- ESP_3V3
+    GND_RAIL -.- ESP_GND
